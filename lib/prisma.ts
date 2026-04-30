@@ -5,7 +5,9 @@ import path from "path";
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
 
 function createPrismaClient() {
-  const dbUrl = path.join(process.cwd(), "prisma", "dev.db");
+  // RAILWAY_VOLUME_MOUNT_PATH este setat automat când adaugi un Volume în Railway
+  const dbDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.cwd();
+  const dbUrl = path.join(dbDir, "dev.db");
   const adapter = new PrismaBetterSqlite3({ url: dbUrl });
   return new PrismaClient({ adapter });
 }

@@ -11,7 +11,8 @@
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset --force",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start:railway": "prisma migrate deploy && node_modules/.bin/next start -p ${PORT:-3000}"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",

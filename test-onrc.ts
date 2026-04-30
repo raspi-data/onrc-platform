@@ -315,7 +315,7 @@ async function main() {
       const buttons = await page.locator("button, a").all();
       for (const btn of buttons.slice(0, 30)) {
         const text = await btn.textContent();
-        if (text?.trim().length > 2 && text?.trim().length < 60) {
+        if (text && text.trim().length > 2 && text.trim().length < 60) {
           console.log(`     - "${text.trim()}"`);
         }
       }

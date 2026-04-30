@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server";
-import { stripe, DOCUMENT_TYPES, getDocumentType } from "@/lib/stripe";
+import { getStripe, getDocumentType } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
         {

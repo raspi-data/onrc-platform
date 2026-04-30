@@ -1,6 +1,8 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 function checkAdminAuth(request: NextRequest): boolean {
   const secret = request.headers.get("x-admin-secret");
   return secret === process.env.ADMIN_SECRET;

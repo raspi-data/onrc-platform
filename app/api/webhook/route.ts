@@ -1,9 +1,11 @@
 import { NextRequest } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail, sendDocumentReadyEmail, sendErrorNotificationEmail } from "@/lib/email";
 import { downloadCertificatConstatator } from "@/lib/onrc-automation";
 import Stripe from "stripe";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -16,7 +18,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = getStripe().webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return new Response("Invalid signature", { status: 400 });
@@ -39,12 +41,10 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Confirm email imediat
     await sendOrderConfirmationEmail(order).catch((err) =>
       console.error("Failed to send confirmation email:", err)
     );
 
-    // Procesare async - nu blocăm răspunsul webhook
     processOrderAsync(order).catch((err) =>
       console.error("Async processing failed:", err)
     );

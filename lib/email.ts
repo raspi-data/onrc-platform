@@ -1,8 +1,12 @@
 import { Resend } from "resend";
-import path from "path";
 import fs from "fs";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend(): Resend {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY is not set");
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 export async function sendOrderConfirmationEmail(order: {
   email: string;
@@ -13,7 +17,7 @@ export async function sendOrderConfirmationEmail(order: {
 }) {
   const docLabel = order.documentType.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: process.env.EMAIL_FROM!,
     to: order.email,
     subject: "Comanda ta a fost plasată cu succes - ONRC Certificate",
@@ -53,7 +57,7 @@ export async function sendDocumentReadyEmail(order: {
   const docLabel = order.documentType.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const pdfBuffer = fs.readFileSync(order.pdfPath);
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: process.env.EMAIL_FROM!,
     to: order.email,
     subject: "Documentul tău ONRC este gata - Îl găsești atașat",
@@ -94,7 +98,7 @@ export async function sendErrorNotificationEmail(order: {
   id: string;
   errorMessage?: string | null;
 }) {
-  await resend.emails.send({
+  await getResend().emails.send({
     from: process.env.EMAIL_FROM!,
     to: order.email,
     subject: "Problemă la procesarea comenzii - ONRC Certificate",

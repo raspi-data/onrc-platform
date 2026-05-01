@@ -8,9 +8,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Certificate ONRC - Obține rapid certificatul constatator",
+  title: "Certificate ONRC — Obține rapid certificatul constatator",
   description:
-    "Serviciu profesional de obținere certificate constatoare de la ONRC. Rapid, sigur, livrat pe email în 2 ore.",
+    "Serviciu profesional de obținere certificate constatoare de la ONRC. Rapid, sigur, livrat pe email în 2 ore. Fără cozi, fără deplasări.",
   keywords: "certificat constatator, ONRC, Romania, CUI, firme",
 };
 
@@ -20,8 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ro" className={`${geist.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-white text-gray-900">{children}</body>
+    <html lang="ro" className={`${geist.variable} bg-background`}>
+      <body className="min-h-screen flex flex-col font-sans text-foreground antialiased">
+        {children}
+      </body>
     </html>
   );
 }

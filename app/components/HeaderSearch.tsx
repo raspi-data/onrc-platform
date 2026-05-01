@@ -1,46 +1,38 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function HeaderSearch() {
   const [cui, setCui] = useState("");
+  const router = useRouter();
 
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && cui.trim()) {
-      window.location.href = `/comanda?cui=${cui.trim()}`;
-    }
-  }
-
-  function handleComandarapid() {
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     if (cui.trim()) {
-      window.location.href = `/comanda?cui=${cui.trim()}`;
+      router.push(`/comanda?cui=${cui.trim()}`);
     } else {
-      window.location.href = "/comanda";
+      router.push("/comanda");
     }
   }
 
   return (
-    <div className="hidden md:flex items-center gap-2 flex-1 max-w-xl">
+    <form onSubmit={handleSubmit} className="hidden md:flex items-center gap-2 flex-1 max-w-xs">
       <div className="flex-1 relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-medium">
-          CUI:
-        </span>
         <input
           type="text"
           value={cui}
           onChange={(e) => setCui(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="ex: 12345678"
-          className="w-full pl-10 pr-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-background text-foreground placeholder:text-muted"
+          placeholder="CUI firmă"
+          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent bg-white text-gray-900 placeholder:text-gray-400"
         />
       </div>
       <button
-        onClick={handleComandarapid}
-        className="bg-brand text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark transition-colors whitespace-nowrap"
+        type="submit"
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap"
       >
-        Comandă rapid
+        Comandă
       </button>
-    </div>
+    </form>
   );
 }

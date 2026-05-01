@@ -126,7 +126,6 @@ const navLinks = [
   { label: "Certificat", href: "#cum-functioneaza" },
   { label: "Tarife", href: "#tarife" },
   { label: "Întrebări Frecvente", href: "#faq" },
-  { label: "Contact", href: "mailto:contact@onrc-certificate.ro" },
 ];
 
 export default function Home() {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeaderSearch from "./components/HeaderSearch";
 
 const steps = [
   {
@@ -65,30 +66,7 @@ export default function Home() {
           </div>
 
           {/* Quick order bar */}
-          <div className="hidden md:flex items-center gap-2 flex-1 max-w-xl">
-            <div className="flex-1 relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-muted font-medium">CUI:</span>
-              <input
-                type="text"
-                placeholder="ex: 12345678"
-                className="w-full pl-10 pr-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-background text-foreground placeholder-muted"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    const input = e.currentTarget;
-                    if (input.value) {
-                      window.location.href = `/comanda?cui=${input.value}`;
-                    }
-                  }
-                }}
-              />
-            </div>
-            <Link
-              href="/comanda"
-              className="bg-brand text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-dark transition-colors whitespace-nowrap"
-            >
-              Comandă rapid
-            </Link>
-          </div>
+          <HeaderSearch />
 
           {/* Mobile CTA */}
           <Link
